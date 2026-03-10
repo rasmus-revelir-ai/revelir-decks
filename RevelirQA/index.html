@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Revelir QA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --purple:      #5B3CF5;
+  --purple-mid:  #7B5FFF;
+  --purple-soft: #EDE9FF;
+  --purple-pale: #F6F4FF;
+  --green:       #00B894;
+  --green-soft:  #E0FAF5;
+  --red:         #E84560;
+  --red-soft:    #FDEDF0;
+  --amber:       #F59E0B;
+  --amber-soft:  #FEF3C7;
+  --ink:         #111827;
+  --ink-2:       #374151;
+  --ink-3:       #6B7280;
+  --ink-4:       #9CA3AF;
+  --line:        #E5E7EB;
+  --line-soft:   #F3F4F6;
+  --white:       #FFFFFF;
+  --bg:          #F9FAFB;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #ECEEF2;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── SLIDE SHELL ── */
+.deck { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; }
+
+.slide {
+  display: none;
+  width: 1280px; height: 720px;
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.18), 0 4px 16px rgba(0,0,0,0.08);
+  position: relative;
+  overflow: hidden;
+  flex-direction: column;
+}
+.slide.active { display: flex; }
+
+/* ── SIDEBAR ACCENT ── */
+.slide::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 5px;
+  background: linear-gradient(180deg, var(--purple) 0%, var(--purple-mid) 100%);
+  border-radius: 16px 0 0 16px;
+}
+
+/* ── SLIDE CONTENT WRAPPER ── */
+.s-inner {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 52px 72px 48px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── HEADER BAR ── */
+.s-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  flex-shrink: 0;
+}
+.s-logo {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--purple);
+}
+.s-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--purple);
+  background: var(--purple-soft);
+  border-radius: 20px;
+  padding: 5px 14px;
+}
+.s-num {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ink-4);
+}
+
+/* ── TYPOGRAPHY ── */
+h1 {
+  font-size: 56px;
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+h1 em { color: var(--purple); font-style: normal; }
+h2 {
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin-bottom: 28px;
+  flex-shrink: 0;
+}
+h2 em { color: var(--purple); font-style: normal; }
+h3 { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 5px; }
+p, li { font-size: 14px; line-height: 1.6; color: var(--ink-3); }
+p.lead { font-size: 18px; color: var(--ink-2); line-height: 1.55; max-width: 680px; }
+strong { color: var(--ink); font-weight: 600; }
+
+/* ── UTILITY ── */
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--purple-soft);
+  color: var(--purple);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.pill.green { background: var(--green-soft); color: var(--green); }
+.pill.red   { background: var(--red-soft);   color: var(--red); }
+
+.divider { width: 48px; height: 3px; background: var(--purple); border-radius: 2px; margin-bottom: 20px; }
+
+/* ═══════════════════════════════
+   SLIDE 1 — COVER
+═══════════════════════════════ */
+#s1 { background: var(--ink); }
+#s1::before { background: linear-gradient(180deg, var(--purple-mid) 0%, #A78BFA 100%); }
+#s1 .bg-geo {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 700px 500px at 110% 60%, rgba(91,60,245,0.35) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 400px at -10% 80%, rgba(0,184,148,0.12) 0%, transparent 70%);
+  z-index: 0;
+}
+#s1 .s-inner { justify-content: center; z-index: 1; gap: 0; }
+#s1 .eyebrow {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #A78BFA; margin-bottom: 18px;
+}
+#s1 h1 { font-size: 64px; color: #fff; line-height: 1.0; margin-bottom: 20px; }
+#s1 h1 em { color: #A78BFA; }
+#s1 .tagline { font-size: 20px; color: rgba(255,255,255,0.55); line-height: 1.5; max-width: 600px; margin-bottom: 48px; }
+#s1 .clients { display: flex; align-items: center; gap: 10px; }
+#s1 .clients-label { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-right: 4px; }
+#s1 .client-chip {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.75);
+}
+#s1 .s-num { color: rgba(255,255,255,0.2); position: absolute; bottom: 32px; right: 64px; }
+
+/* ═══════════════════════════════
+   SLIDE 2 — PROBLEM
+═══════════════════════════════ */
+.stat-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-bottom: 28px; flex-shrink: 0; }
+.stat-box {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 22px 20px;
+  text-align: center;
+}
+.stat-box .num {
+  font-size: 38px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.stat-box .lbl { font-size: 12px; color: var(--ink-3); line-height: 1.4; }
+.red-num  { color: var(--red); }
+.amber-num { color: var(--amber); }
+
+/* ═══════════════════════════════
+   SLIDE 3 — CAPABILITIES
+═══════════════════════════════ */
+.cap-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; flex: 1; }
+.cap-card {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color 0.15s;
+}
+.cap-card:hover { border-color: var(--purple-mid); }
+.cap-icon { font-size: 22px; margin-bottom: 4px; }
+.cap-card h3 { font-size: 13px; }
+.cap-card p { font-size: 12px; }
+
+/* ═══════════════════════════════
+   SLIDE 4 — HOW IT WORKS
+═══════════════════════════════ */
+.flow-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  flex: 1;
+  margin-top: 4px;
+}
+.flow-step {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 22px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.flow-step .f-num {
+  width: 26px; height: 26px;
+  background: var(--purple-soft);
+  color: var(--purple);
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.flow-step .f-icon { font-size: 24px; }
+.flow-step h3 { font-size: 13px; line-height: 1.3; }
+.flow-step p { font-size: 11px; }
+.flow-arrow {
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 6px;
+  color: var(--ink-4);
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════
+   SLIDE 5 — COMP TABLE
+═══════════════════════════════ */
+.comp-wrap { flex: 1; overflow: hidden; }
+table.comp {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+table.comp thead tr { background: var(--bg); }
+table.comp th {
+  padding: 11px 16px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border-bottom: 2px solid var(--line);
+}
+table.comp th.ours {
+  background: var(--purple-soft);
+  color: var(--purple);
+  border-bottom: 2px solid var(--purple);
+}
+table.comp td {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line-soft);
+  color: var(--ink-3);
+  vertical-align: middle;
+}
+table.comp td:first-child { color: var(--ink-2); font-weight: 500; font-size: 12px; }
+table.comp td.ours { background: var(--purple-pale); color: var(--ink-2); font-weight: 500; }
+table.comp tr:last-child td { border-bottom: none; }
+.t-yes  { color: var(--green);  font-weight: 600; }
+.t-no   { color: var(--red);    font-weight: 600; }
+.t-part { color: var(--amber);  font-weight: 600; }
+
+/* ═══════════════════════════════
+   SLIDE 6 — WHERE WE WIN
+═══════════════════════════════ */
+.win-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; flex: 1; }
+.win-card {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+.win-card .w-icon {
+  width: 36px; height: 36px;
+  background: var(--purple-soft);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.win-card h3 { font-size: 13px; margin-bottom: 4px; }
+.win-card p  { font-size: 12px; }
+
+/* ═══════════════════════════════
+   SLIDE 7 — BATTLE CARD
+═══════════════════════════════ */
+.battle-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 12px;
+  flex: 1;
+}
+.b-card {
+  border-radius: 12px;
+  padding: 18px;
+  border: 1.5px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.b-card.us { border-color: var(--purple); background: var(--purple-pale); }
+.b-card.them { background: var(--bg); }
+.b-card .b-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.b-card.us  .b-label { color: var(--purple); }
+.b-card.them .b-label { color: var(--ink-4); }
+.b-card h3 { font-size: 15px; margin-bottom: 0; }
+.b-card.us h3 { color: var(--purple); }
+.b-card ul { list-style: none; display: flex; flex-direction: column; gap: 5px; }
+.b-card ul li {
+  font-size: 12px;
+  color: var(--ink-3);
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.4;
+}
+.b-card.us  ul li::before { content: "✓"; position: absolute; left: 0; color: var(--purple); font-weight: 700; }
+.b-card.them ul li::before { content: "→"; position: absolute; left: 0; color: var(--ink-4); }
+
+/* ═══════════════════════════════
+   SLIDE 8 — ICP
+═══════════════════════════════ */
+.icp-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; }
+.icp-left { display: flex; flex-direction: column; gap: 12px; }
+.icp-block {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px 20px;
+  flex: 1;
+}
+.icp-block .b-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--ink-4); margin-bottom: 6px;
+}
+.icp-block h3 { font-size: 13px; margin-bottom: 5px; }
+.icp-block p  { font-size: 12px; }
+.icp-right { display: flex; flex-direction: column; gap: 12px; }
+.fit-card {
+  border-radius: 12px;
+  padding: 18px 20px;
+  flex: 1;
+}
+.fit-card.good { background: var(--green-soft); border: 1px solid rgba(0,184,148,0.25); }
+.fit-card.bad  { background: var(--red-soft);   border: 1px solid rgba(232,69,96,0.2);  }
+.fit-card .b-label { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+.fit-card.good .b-label { color: var(--green); }
+.fit-card.bad  .b-label { color: var(--red); }
+.fit-card ul { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+.fit-card ul li { font-size: 12px; color: var(--ink-2); padding-left: 18px; position: relative; line-height: 1.4; }
+.fit-card.good ul li::before { content: "✓"; position: absolute; left: 0; color: var(--green); font-weight: 700; }
+.fit-card.bad  ul li::before { content: "✗"; position: absolute; left: 0; color: var(--red); font-weight: 700; }
+
+/* ═══════════════════════════════
+   SLIDE 9 — PROOF
+═══════════════════════════════ */
+.proof-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; flex: 1; }
+.proof-card {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.proof-card .client-head { display: flex; align-items: center; gap: 14px; }
+.proof-card .client-dot {
+  width: 10px; height: 10px;
+  background: var(--purple);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.proof-card .client-name { font-size: 22px; font-weight: 800; color: var(--ink); letter-spacing: -0.02em; }
+.proof-card .client-desc { font-size: 12px; color: var(--ink-4); margin-top: 2px; }
+.proof-card .proof-divider { height: 1px; background: var(--line); }
+.proof-card ul { list-style: none; display: flex; flex-direction: column; gap: 7px; }
+.proof-card ul li {
+  font-size: 13px; color: var(--ink-2);
+  padding-left: 18px; position: relative; line-height: 1.45;
+}
+.proof-card ul li::before { content: "→"; position: absolute; left: 0; color: var(--purple); font-weight: 700; }
+
+/* ═══════════════════════════════
+   SLIDE 10 — OBJECTIONS
+═══════════════════════════════ */
+.obj-list { display: flex; flex-direction: column; gap: 12px; flex: 1; }
+.obj-row {
+  display: grid;
+  grid-template-columns: 38px 1fr 1px 1fr;
+  gap: 16px;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 20px;
+  align-items: center;
+}
+.obj-row .obj-icon { font-size: 20px; text-align: center; }
+.obj-row .obj-q { }
+.obj-row .obj-q .ql {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--amber); margin-bottom: 3px;
+}
+.obj-row .obj-q p { font-size: 13px; color: var(--ink-2); font-weight: 500; }
+.obj-row .obj-div { height: 100%; background: var(--line); width: 1px; }
+.obj-row .obj-a { }
+.obj-row .obj-a .al {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--green); margin-bottom: 3px;
+}
+.obj-row .obj-a p { font-size: 12px; color: var(--ink-3); line-height: 1.5; }
+
+/* ═══════════════════════════════
+   NAVIGATION
+═══════════════════════════════ */
+.nav {
+  position: fixed;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 200;
+}
+.nav button {
+  background: var(--white);
+  border: 1px solid var(--line);
+  color: var(--ink-2);
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: all 0.12s;
+}
+.nav button:hover:not(:disabled) {
+  background: var(--purple);
+  border-color: var(--purple);
+  color: white;
+  box-shadow: 0 4px 14px rgba(91,60,245,0.35);
+}
+.nav button:disabled { opacity: 0.3; cursor: default; }
+.nav .count {
+  font-size: 12px; font-weight: 500; color: #666;
+  background: white; border: 1px solid var(--line);
+  padding: 8px 14px; border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  min-width: 64px; text-align: center;
+}
+
+.dots {
+  position: fixed; right: 28px; top: 50%; transform: translateY(-50%);
+  display: flex; flex-direction: column; gap: 7px; z-index: 200;
+}
+.dot {
+  width: 6px; height: 6px; border-radius: 3px;
+  background: #ccc; cursor: pointer;
+  transition: all 0.2s;
+}
+.dot.active { background: var(--purple); height: 20px; }
+</style>
+</head>
+<body>
+<div class="deck">
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 1 — COVER
+══════════════════════════════════════════════ -->
+<div class="slide active" id="s1">
+  <div class="bg-geo"></div>
+  <div class="s-inner">
+    <p class="eyebrow">Revelir AI</p>
+    <h1>Revelir QA for<br><em>Enterprise Support</em></h1>
+    <p class="tagline">AI that evaluates every support conversation — so your team coaches faster, scores fairly, and proves ROI.</p>
+    <div class="clients">
+      <span class="clients-label">Trusted by</span>
+      <div class="client-chip">Xendit</div>
+      <div class="client-chip">Tiket.com</div>
+    </div>
+  </div>
+  <span class="s-num">1 / 10</span>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 2 — THE PROBLEM
+══════════════════════════════════════════════ -->
+<div class="slide" id="s2">
+  <div class="s-inner">
+    <div class="s-header">
+      <span class="s-logo">Revelir AI</span>
+      <span class="s-tag">The Problem</span>
+      <span class="s-num">2 / 10</span>
+    </div>
+    <h2>Manual QA doesn't scale.<br><em>Most tickets are invisible.</em></h2>
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="num red-num">2%</div>
+        <div class="lbl">of conversations reviewed<br>by manual QA</div>
+      </div>
+      <div class="stat-box">
+        <div class="num amber-num">Weeks</div>
+        <div class="lbl">before bad agent behaviour<br>is caught and coached</div>
+      </div>
+      <div class="stat-box">
+        <div class="num amber-num">Biased</div>
+        <div class="lbl">scoring — same ticket,<br>different reviewers, different grades</div>
+      </div>
+      <div class="stat-box">
+        <div class="num red-num">Zero</div>
+        <div class="lbl">visibility into how AI<br>chatbots are actually performing</div>
+      </div>
+    </div>
+    <p class="lead">The result: support quality is a guess. Coaching is reactive.<br>And leadership can't trust the numbers.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 3 — WHAT IT DOES
+══════════════════════════════════════════════ -->
+<div class="slide" id="s3">
+  <div class="s-inner">
+    <div class="s-header">
+      <span class="s-logo">Revelir AI</span>
+      <span class="s-tag">The Solution</span>
+      <span class="s-num">3 / 10</span>
+    </div>
+    <h2>100% coverage. Org-aware AI.<br><em>Full auditability.</em></h2>
+    <div class="cap-grid">
+      <div class="cap-card">
+        <div class="cap-icon">🎯</div>
+        <h3>Configurable Quality Monitors</h3>
+        <p>Define your own QA rubric — compliance, tone, resolution quality, escalation handling. Not a generic scorecard.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-icon">🧠</div>
+        <h3>RAG-Powered Context</h3>
+        <p>Your knowledge base and SOPs are ingested. The AI reads your actual policies before scoring — not generic best practices.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-icon">📊</div>
+        <h3>IQS Performance Scoring</h3>
+        <p>Per-agent scores roll up to team and org level. Historical tracking, calibration sessions, trend dashboards.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-icon">🤖</div>
+        <h3>AI Agent Evaluation</h3>
+        <p>Evaluates chatbot and AI agent conversations — not just human agents. Critical as AI handles more volume.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-icon">🔍</div>
+        <h3>Full AI Observability</h3>
+        <p>Every score has a trace — which model ran, what was retrieved, why the AI scored what it scored. Auditable.</p>
+      </div>
+      <div class="cap-card">
+        <div class="cap-icon">🔗</div>
+        <h3>Multi-Source Ingestion</h3>
+        <p>Zendesk, HubSpot, Salesforce — all normalised into one unified structure. No helpdesk lock-in.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 4 — HOW IT WORKS
+══════════════════════════════════════════════ -->
+<div class="slide" id="s4">
+  <div class="s-inner">
+    <div class="s-header">
+      <span class="s-logo">Revelir AI</span>
+      <span class="s-tag">How It Works</span>
+      <span class="s-num">4 / 10</span>
+    </div>
+    <h2>From helpdesk to insight<br><em>in a single pipeline</em></h2>
+    <div class="flow-row">
+      <div class="flow-step">
+        <div class="f-num">1</div>
+        <div class="f-icon">📥</div>
+        <h3>Ticket Ingestion</h3>
+        <p>Zendesk, HubSpot, Salesforce, CSV — unified into one format</p>
+      </div>
+      <div class="flow-arrow">›</div>
+      <div class="flow-step">
+        <div class="f-num">2</div>
+        <div class="f-icon">📚</div>
+        <h3>Context Retrieval</h3>
+        <p>Your knowledge base + SOPs retrieved via RAG before evaluation</p>
+      </div>
+      <div class="flow-arrow">›</div>
+      <div class="flow-step">
+        <div class="f-num">3</div>
+        <div class="f-icon">🤖</div>
+        <h3>AI Evaluation</h3>
+        <p>40+ configurable monitors run against every conversation</p>
+      </div>
+      <div class="flow-arrow">›</div>
+      <div class="flow-step">
+        <div class="f-num">4</div>
+        <div class="f-icon">📊</div>
+        <h3>Scoring & Rollup</h3>
+        <p>Per-ticket → per-agent → per-team → org-wide IQS scores</p>
+      </div>
+      <div class="flow-arrow">›</div>
+      <div class="flow-step">
+        <div class="f-num">5</div>
+        <div class="f-icon">🎓</div>
+        <h3>Calibration</h3>
+        <p>QA leads review AI scores and align human + AI judgment</p>
+      </div>
+      <div class="flow-arrow">›</div>
+      <div class="flow-step">
+        <div class="f-num">6</div>
+        <div class="f-icon">💡</div>
+        <h3>Insights</h3>
+        <p>Actionable data for support leaders — not just dashboards</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 5 — COMPETITIVE TABLE
+══════════════════════════════════════════════ -->
+<div class="slide" id="s5">
+  <div class="s-inner">
+    <div class="s-header">
+      <span class="s-logo">Revelir AI</span>
+      <span class="s-tag">Competitive Landscape</span>
+      <span class="s-num">5 / 10</span>
+    </div>
+    <h2>How we stack up</h2>
+    <div class="comp-wrap">
+      <table class="comp">
+        <thead>
+          <tr>
+            <th style="width:26%">Capability</th>
+            <th class="ours">Revelir QA</th>
+            <th>Zendesk QA</th>
+            <th>Intryc</th>
+            <th>MaestroQA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>100% AI conversation coverage</td>
+            <td class="ours"><span class="t-yes">✓ Yes</span></td>
+            <td><span class="t-yes">✓ Yes</span></td>
+            <td><span class="t-yes">✓ Yes</span></td>
+            <td><span class="t-part">Add-on cost</span></td>
+          </tr>
+          <tr>
+            <td>Scores against your own policies (RAG)</td>
+            <td class="ours"><span class="t-yes">✓ Yes</span></td>
+            <td><span class="t-no">✗ No</span></td>
+            <td><span class="t-part">Partial</span></td>
+            <td><span class="t-no">✗ No</span></td>
+          </tr>
+          <tr>
+            <td>Custom QA monitors / rubric</td>
+            <td class="ours"><span class="t-yes">✓ Fully configurable</span></td>
+            <td><span class="t-part">Partial</span></td>
+            <td><span class="t-yes">✓ Yes</span></td>
+            <td><span class="t-yes">✓ Yes</span></td>
+          </tr>
+          <tr>
+            <td>AI agent / chatbot evaluation</td>
+            <td class="ours"><span class="t-yes">✓ Yes</span></td>
+            <td><span class="t-part">Zendesk only</span></td>
+            <td><span class="t-no">Not confirmed</span></td>
+            <td><span class="t-no">✗ No</span></td>
+          </tr>
+          <tr>
+            <td>Full AI observability / audit trail</td>
+            <td class="ours"><span class="t-yes">✓ Langfuse traces</span></td>
+            <td><span class="t-no">✗ No</span></td>
+            <td><span class="t-no">✗ No</span></td>
+            <td><span class="t-no">✗ No</span></td>
+          </tr>
+          <tr>
+            <td>IQS / performance scoring pipeline</td>
+            <td class="ours"><span class="t-yes">✓ Yes</span></td>
+            <td><span class="t-part">Basic</span></td>
+            <td><span class="t-part">Basic</span></td>
+            <td><span class="t-yes">✓ Yes</span></td>
+          </tr>
+          <tr>
+            <td>Helpdesk agnostic</td>
+            <td class="ours"><span class="t-yes">✓ Yes</span></td>
+            <td><span class="t-no">✗ Zendesk only</span></td>
+            <td><span class="t-yes">✓ Yes</span></td>
+            <td><span class="t-yes">✓ Yes</span></td>
+          </tr>
+          <tr>
+            <td>SE Asia / Indonesian language</td>
+            <td class="ours"><span class="t-yes">✓ Native</span></td>
+            <td><span class="t-no">✗ No</span></td>
+            <td><span class="t-no">✗ No</span></td>
+            <td><span class="t-no">✗ No</span></td>
+          </tr>
+          <tr>
+            <td>Screen recording</td>
+            <td class="ours"><span class="t-no">✗ No</span></td>
+            <td><span class="t-no">✗ No</span></td>
+            <td><span class="t-no">✗ No</span></td>
+            <td><span class="t-yes">✓ Unique feature</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 6 — WHERE WE WIN
+══════════════════════════════════════════════ -->
+<div class="slide" id="s6">
+  <div class="s-inner">
+    <div class="s-header">
+      <span class="s-logo">Revelir AI</span>
+      <span class="s-tag">Our Strengths</span>
+      <span class="s-num">6 / 10</span>
+    </div>
+    <h2>Where <em>Revelir</em> wins</h2>
+    <div class="win-grid">
+      <div class="win-card">
+        <div class="w-icon">🧠</div>
+        <div>
+          <h3>AI that knows your business</h3>
+          <p>Your policies and knowledge base are ingested via RAG. The AI reads your SOPs before every evaluation — not a generic rubric.</p>
+        </div>
+      </div>
+      <div class="win-card">
+        <div class="w-icon">🔍</div>
+        <div>
+          <h3>Full audit trail on every score</h3>
+          <p>Every AI decision is traceable — which model, which prompt, which docs it retrieved. Critical for compliance-sensitive industries.</p>
+        </div>
+      </div>
+      <div class="win-card">
+        <div class="w-icon">🤖</div>
+        <div>
+          <h3>Evaluates AI agents, not just humans</h3>
+          <p>As chatbots handle more volume, you need QA for them too. Revelir has a dedicated AI agent evaluation module.</p>
+        </div>
+      </div>
+      <div class="win-card">
+        <div class="w-icon">🔓</div>
+        <div>
+          <h3>No vendor lock-in</h3>
+          <p>Works with Zendesk, HubSpot, Salesforce and more. Migrate helpdesks without losing your QA data or scoring history.</p>
+        </div>
+      </div>
+      <div class="win-card">
+        <div class="w-icon">🏆</div>
+        <div>
+          <h3>Enterprise scoring infrastructure</h3>
+          <p>IQS scoring pipeline with per-agent, per-team, org-wide rollup and historical tracking. Not just a scorecard — a full system.</p>
+        </div>
+      </div>
+      <div class="win-card">
+        <div class="w-icon">🌏</div>
+        <div>
+          <h3>Built for Southeast Asia</h3>
+          <p>Indonesian language support, local market understanding, and proven at enterprise scale with Xendit and Tiket.com.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 7 — BATTLE CARD
+══════════════════════════════════════════════ -->
+<div class="slide" id="s7">
+  <div class="s-inner">
+    <div class="s-header">
+      <span class="s-logo">Revelir AI</span>
+      <span class="s-tag">Battle Card</span>
+      <span class="s-num">7 / 10</span>
+    </div>
+    <h2>Choose <em>Revelir</em> when… vs. send them elsewhere</h2>
+    <div class="battle-grid">
+      <div class="b-card us">
+        <div class="b-label">Choose Revelir when →</div>
+        <h3>Revelir QA</h3>
+        <ul>
+          <li>AI must score against your own policies, not generic rubrics</li>
+          <li>Every score needs a full audit trail (compliance-sensitive)</li>
+          <li>You need QA for both human agents and AI chatbots</li>
+          <li>Enterprise IQS scoring system — not just a scorecard</li>
+          <li>On multiple helpdesks or planning a migration</li>
+          <li>Operating in SE Asia or multilingual environments</li>
+          <li>Fintech, travel, insurance — regulated industry</li>
+        </ul>
+      </div>
+      <div class="b-card them">
+        <div class="b-label">Send to Zendesk QA if →</div>
+        <h3>Zendesk QA</h3>
+        <ul>
+          <li>100% on Zendesk and never leaving</li>
+          <li>Simple AutoQA with minimal setup</li>
+          <li>Single vendor for helpdesk + QA</li>
+          <li>Budget-constrained, basic needs</li>
+        </ul>
+      </div>
+      <div class="b-card them">
+        <div class="b-label">Send to Intryc if →</div>
+        <h3>Intryc</h3>
+        <ul>
+          <li>Agent training simulation is #1 priority</li>
+          <li>Small team, fast self-serve onboarding</li>
+          <li>OK with an early-stage vendor (YC 2024)</li>
+        </ul>
+      </div>
+      <div class="b-card them">
+        <div class="b-label">Send to MaestroQA if →</div>
+        <h3>MaestroQA</h3>
+        <ul>
+          <li>Screen recording of agent desktops needed</li>
+          <li>Voice QA is the primary use case</li>
+          <li>BPO / contact center with QA ops headcount</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 8 — ICP
+══════════════════════════════════════════════ -->
+<div class="slide" id="s8">
+  <div class="s-inner">
+    <div class="s-header">
+      <span class="s-logo">Revelir AI</span>
+      <span class="s-tag">Ideal Customer</span>
+      <span class="s-num">8 / 10</span>
+    </div>
+    <h2>Who we're <em>built for</em></h2>
+    <div class="icp-layout">
+      <div class="icp-left">
+        <div class="icp-block">
+          <div class="b-label">Company</div>
+          <h3>Enterprise or fast-scaling mid-market</h3>
+          <p><strong>5,000+ tickets/month</strong>, 50+ support agents. High ticket volume where manual QA is already a bottleneck.</p>
+        </div>
+        <div class="icp-block">
+          <div class="b-label">Industries</div>
+          <h3>Fintech · Travel · E-commerce · Insurtech</h3>
+          <p>Especially in <strong>SE Asia or multi-market operations</strong>. Compliance-sensitive environments where auditability matters.</p>
+        </div>
+        <div class="icp-block">
+          <div class="b-label">Buyer Persona</div>
+          <h3>Head of CX Ops / VP Support</h3>
+          <p>Needs consistent scoring, wants to QA AI agents, is on multiple helpdesks, and needs to <strong>prove ROI to leadership</strong>.</p>
+        </div>
+      </div>
+      <div class="icp-right">
+        <div class="fit-card good">
+          <div class="b-label">Strong fit signals</div>
+          <ul>
+            <li>Frustrated by inconsistent QA scoring across reviewers</li>
+            <li>Deploying AI agents / chatbots alongside human agents</li>
+            <li>On multiple helpdesks or planning a migration</li>
+            <li>Regulated industry — needs auditability of AI decisions</li>
+            <li>SE Asia market, Indonesian or multilingual support</li>
+            <li>Needs to report QA metrics to the C-suite</li>
+          </ul>
+        </div>
+        <div class="fit-card bad">
+          <div class="b-label">Poor fit signals</div>
+          <ul>
+            <li>Voice QA is the primary use case</li>
+            <li>Screen recording of agent desktops required</li>
+            <li>Wants fully self-serve, no sales conversation</li>
+            <li>Very small team (&lt;20 agents) with simple QA needs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 9 — PROOF
+══════════════════════════════════════════════ -->
+<div class="slide" id="s9">
+  <div class="s-inner">
+    <div class="s-header">
+      <span class="s-logo">Revelir AI</span>
+      <span class="s-tag">Proof Points</span>
+      <span class="s-num">9 / 10</span>
+    </div>
+    <h2>In production at<br><em>enterprise scale</em></h2>
+    <div class="proof-grid">
+      <div class="proof-card">
+        <div class="client-head">
+          <div class="client-dot"></div>
+          <div>
+            <div class="client-name">Xendit</div>
+            <div class="client-desc">Indonesia's leading fintech — payments infrastructure for 1000s of businesses</div>
+          </div>
+        </div>
+        <div class="proof-divider"></div>
+        <ul>
+          <li>Full IQS scoring pipeline running across all support agents</li>
+          <li>Custom taxonomy-based ticket classification</li>
+          <li>Dedicated QA worker for Xendit-specific compliance rubrics</li>
+          <li>Historical IQS score tracking for performance trends</li>
+          <li>40+ AI evaluation workflows running per ticket</li>
+        </ul>
+      </div>
+      <div class="proof-card">
+        <div class="client-head">
+          <div class="client-dot" style="background: var(--green);"></div>
+          <div>
+            <div class="client-name">Tiket.com</div>
+            <div class="client-desc">Indonesia's leading travel platform — flights, hotels, events, trains</div>
+          </div>
+        </div>
+        <div class="proof-divider"></div>
+        <ul>
+          <li>Full ticket ingestion pipeline from Zendesk</li>
+          <li>AI evaluation running across all support conversations</li>
+          <li>Google Sheets integration for ops team reporting</li>
+          <li>Multi-language support — Indonesian + English</li>
+          <li>Custom monitors tuned to travel industry specifics</li>
+        </ul>
+      </div>
+    </div>
+    <p style="font-size:12px; color: var(--ink-4); text-align:center; margin-top: 14px;">Both clients in production — not pilots. Processing thousands of tickets per week through the AI evaluation pipeline.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SLIDE 10 — OBJECTIONS
+══════════════════════════════════════════════ -->
+<div class="slide" id="s10">
+  <div class="s-inner">
+    <div class="s-header">
+      <span class="s-logo">Revelir AI</span>
+      <span class="s-tag">Objection Handlers</span>
+      <span class="s-num">10 / 10</span>
+    </div>
+    <h2>Answers to the <em>tough questions</em></h2>
+    <div class="obj-list">
+      <div class="obj-row">
+        <div class="obj-icon">💬</div>
+        <div class="obj-q">
+          <div class="ql">Objection</div>
+          <p>"Can the AI really understand our specific policies?"</p>
+        </div>
+        <div class="obj-div"></div>
+        <div class="obj-a">
+          <div class="al">Answer</div>
+          <p>Yes — we ingest your knowledge base into a vector DB. Before scoring any conversation, the AI retrieves your actual policies and SOPs, not generic benchmarks.</p>
+        </div>
+      </div>
+      <div class="obj-row">
+        <div class="obj-icon">💬</div>
+        <div class="obj-q">
+          <div class="ql">Objection</div>
+          <p>"What if the AI score is wrong?"</p>
+        </div>
+        <div class="obj-div"></div>
+        <div class="obj-a">
+          <div class="al">Answer</div>
+          <p>Every score has a full reasoning trace — you can see exactly why the AI scored what it scored. Calibration sessions align AI judgment with your team's standards over time.</p>
+        </div>
+      </div>
+      <div class="obj-row">
+        <div class="obj-icon">💬</div>
+        <div class="obj-q">
+          <div class="ql">Objection</div>
+          <p>"We already use Klaus / MaestroQA."</p>
+        </div>
+        <div class="obj-div"></div>
+        <div class="obj-a">
+          <div class="al">Answer</div>
+          <p>Those tools are great for human-reviewed QA. Revelir replaces the manual review layer with AI — so your QA team focuses on calibration and edge cases, not reading 500 tickets a week.</p>
+        </div>
+      </div>
+      <div class="obj-row">
+        <div class="obj-icon">💬</div>
+        <div class="obj-q">
+          <div class="ql">Objection</div>
+          <p>"Is it enterprise-grade and secure?"</p>
+        </div>
+        <div class="obj-div"></div>
+        <div class="obj-a">
+          <div class="al">Answer</div>
+          <p>Multi-tenant with org-level data isolation, row-level security, and enterprise cloud infrastructure. Already running in production at Xendit and Tiket.com.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /deck -->
+
+<!-- Navigation -->
+<div class="nav">
+  <button id="prevBtn" onclick="go(-1)" disabled>← Prev</button>
+  <span class="count" id="cnt">1 / 10</span>
+  <button id="nextBtn" onclick="go(1)">Next →</button>
+</div>
+<div class="dots" id="dots"></div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const N = slides.length;
+let i = 0;
+const dotsEl = document.getElementById('dots');
+for (let k = 0; k < N; k++) {
+  const d = document.createElement('div');
+  d.className = 'dot' + (k===0?' active':'');
+  d.onclick = () => goTo(k);
+  dotsEl.appendChild(d);
+}
+function goTo(n) {
+  slides[i].classList.remove('active');
+  dotsEl.children[i].classList.remove('active');
+  i = Math.max(0, Math.min(N-1, n));
+  slides[i].classList.add('active');
+  dotsEl.children[i].classList.add('active');
+  document.getElementById('cnt').textContent = (i+1)+' / '+N;
+  document.getElementById('prevBtn').disabled = i === 0;
+  document.getElementById('nextBtn').disabled = i === N-1;
+}
+function go(d) { goTo(i+d); }
+document.addEventListener('keydown', e => {
+  if (e.key==='ArrowRight'||e.key==='ArrowDown') go(1);
+  if (e.key==='ArrowLeft' ||e.key==='ArrowUp')   go(-1);
+});
+</script>
+</body>
+</html>
