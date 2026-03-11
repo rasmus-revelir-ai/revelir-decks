@@ -529,6 +529,15 @@ table.comp tr:last-child td { border-bottom: none; }
   transition: all 0.2s;
 }
 .dot.active { background: var(--purple); height: 20px; }
+
+/* ── MOBILE / TABLET RESPONSIVE ── */
+@media (max-width: 640px) {
+  .dots { display: none; }
+  .deck { align-items: flex-start; padding-top: 16px; }
+}
+@media (max-width: 640px) and (orientation: landscape) {
+  .deck { align-items: center; padding-top: 0; }
+}
 </style>
 </head>
 <body>
@@ -1106,15 +1115,18 @@ document.addEventListener('keydown', e => {
 
 // ── RESPONSIVE SCALING ──
 function scaleSlides() {
-  const scaleX = window.innerWidth / 1280;
-  const scaleY = window.innerHeight / 720;
-  const scale = Math.min(scaleX, scaleY) * 0.97;
+  const vp = window.visualViewport;
+  const vw = vp ? vp.width  : window.innerWidth;
+  const vh = vp ? vp.height : window.innerHeight;
+  const NAV_H = 80; // reserve space for nav buttons
+  const scale = Math.min(vw / 1280, (vh - NAV_H) / 720);
   slides.forEach(s => {
     s.style.transform = 'scale(' + scale + ')';
-    s.style.transformOrigin = 'center center';
+    s.style.transformOrigin = 'center top';
   });
 }
 window.addEventListener('resize', scaleSlides);
+if (window.visualViewport) window.visualViewport.addEventListener('resize', scaleSlides);
 scaleSlides();
 
 // ── TOUCH SWIPE ──
